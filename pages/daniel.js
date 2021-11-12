@@ -1,3 +1,3 @@
 export default function DanielPage() {
-  return <h1>Hii I am Daniel</h1>;
+  return <h1>Hii I aam Daniel</h1>;
 }
