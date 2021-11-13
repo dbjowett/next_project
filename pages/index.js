@@ -4,9 +4,10 @@ import Link from 'next/link';
 export default function HomePage() {
   return (
     <div>
-      <h1 className={styles.container}>Hddellooo</h1>
+      <h1 className={styles.container}>Starting page</h1>
+      <div>Here we will show the featured page</div>
       <button>
-        <Link href={'/daniel'}>Daniel</Link>
+        <Link href={'/events/'}>All Events</Link>
       </button>
     </div>
   );
