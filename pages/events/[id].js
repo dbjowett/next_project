@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { getEventById } from '../../dummy-data';
 
 export default function DetailPage() {
   const router = useRouter();
-  console.log(router.query);
+  const currentEvent = getEventById(router.query.id);
+  console.log(currentEvent);
   return (
     <div>
       <h1>Single Event Page</h1>
