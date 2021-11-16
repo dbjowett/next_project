@@ -5,6 +5,7 @@ import { Fragment } from 'react';
 import EventSummary from '../../components/event-detail/event-summary';
 import EventLogistics from '../../components/event-detail/event-logistics';
 import EventContent from '../../components/event-detail/event-content';
+import EventAlert from '../../components/ui/error-alert';
 
 export default function DetailPage() {
   const router = useRouter();
@@ -12,7 +13,11 @@ export default function DetailPage() {
   console.log(currentEvent);
 
   if (!currentEvent) {
-    return <div> No event found!</div>;
+    return (
+      <EventAlert>
+        <div> No event found!</div>
+      </EventAlert>
+    );
   }
 
   return (
