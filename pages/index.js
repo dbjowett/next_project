@@ -14,3 +14,22 @@ export default function HomePage() {
     </div>
   );
 }
+
+export async function getStaticProps() {
+  const URL = 'https://events-168a8-default-rtdb.asia-southeast1.firebasedatabase.app/events.json';
+
+  const data = await fetch(URL);
+  console.log(data);
+  // function getFeaturedEvents() {
+  //   return data.filter((event) => event.isFeatured);
+  // }
+
+  // const filteredEvents = getFeaturedEvents();
+
+  return {
+    props: {
+      featuredEvents: 'data'
+    },
+    revalidate: 1000
+  };
+}
