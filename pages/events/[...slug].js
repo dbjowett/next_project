@@ -1,19 +1,23 @@
-import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 import EventList from '../../components/events/event-list';
 import ResultsTitle from '../../components/events/results-title';
 import Button from '../../components/ui/button';
 import ErrorAlert from '../../components/ui/error-alert';
 import { getFilteredEvents } from '../../helpers/api-util';
+import Head from 'next/head';
 
 export default function FilteredPage({ filteredEvents, numYear, numMonth }) {
-  // const router = useRouter();
-  // const getEvents = getFilteredEvents();
-  // const filteredData = router.query.slug;
+  const pageHead = (
+    <Head>
+      <title>Filtered Events</title>
+      <meta name='description' content={`All events for ${numMonth}/${numYear}`} />
+    </Head>
+  );
 
   if (!filteredEvents) {
     return (
       <Fragment>
+        {pageHead}
         <p className='center'>Loading...</p>
       </Fragment>
     );
@@ -22,6 +26,7 @@ export default function FilteredPage({ filteredEvents, numYear, numMonth }) {
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <Fragment>
+        {pageHead}
         <ErrorAlert>
           <p className='center'>No Events found for this filter.</p>
         </ErrorAlert>
@@ -36,6 +41,7 @@ export default function FilteredPage({ filteredEvents, numYear, numMonth }) {
 
   return (
     <Fragment>
+      {pageHead}
       <ResultsTitle date={date} />
       <EventList items={filteredEvents} />
     </Fragment>

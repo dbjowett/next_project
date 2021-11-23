@@ -3,6 +3,7 @@ import { getAllEvents, getFeaturedEvents } from '../../helpers/api-util';
 import EventList from '../../components/events/event-list';
 import EventSearch from '../../components/events/events-search';
 import { Fragment } from 'react';
+import Head from 'next/head';
 
 export default function EventsPage({ events }) {
   const router = useRouter();
@@ -13,6 +14,10 @@ export default function EventsPage({ events }) {
 
   return (
     <Fragment>
+      <Head>
+        <title>All Events</title>
+        <meta name='description' content='All types of upcoming developer events to meet people with similar interests' />
+      </Head>
       <EventSearch onSearch={findEventsHandler} />
       <EventList items={events} />
     </Fragment>
