@@ -1,7 +1,8 @@
 import { Fragment } from 'react';
+
 import MainHeader from './main-header';
 
-export default function Layout(props) {
+function Layout(props) {
   return (
     <Fragment>
       <MainHeader />
@@ -9,3 +10,5 @@ export default function Layout(props) {
     </Fragment>
   );
 }
+
+export default Layout;

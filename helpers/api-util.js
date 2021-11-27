@@ -1,22 +1,16 @@
 export async function getAllEvents() {
-  const URL = 'https://events-168a8-default-rtdb.asia-southeast1.firebasedatabase.app/events.json';
-
-  const res = await fetch(URL);
-  const data = await res.json();
+  const response = await fetch('https://events-168a8-default-rtdb.asia-southeast1.firebasedatabase.app/events.json');
+  const data = await response.json();
 
   const events = [];
 
   for (const key in data) {
     events.push({
       id: key,
-      date: data[key].date,
-      description: data[key].description,
-      image: data[key].image,
-      isFeatured: data[key].isFeatured,
-      location: data[key].location,
-      title: data[key].title
+      ...data[key]
     });
   }
+
   return events;
 }
 
@@ -31,8 +25,9 @@ export async function getEventById(id) {
 }
 
 export async function getFilteredEvents(dateFilter) {
-  const allEvents = await getAllEvents();
   const { year, month } = dateFilter;
+
+  const allEvents = await getAllEvents();
 
   let filteredEvents = allEvents.filter((event) => {
     const eventDate = new Date(event.date);

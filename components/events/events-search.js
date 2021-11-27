@@ -3,23 +3,17 @@ import { useRef } from 'react';
 import Button from '../ui/button';
 import classes from './events-search.module.css';
 
-export default function FunctionSearch(props) {
+function EventsSearch(props) {
   const yearInputRef = useRef();
   const monthInputRef = useRef();
 
-  function submitHandler(e) {
-    // Prevents the browser default of sending an HTTP request
-    // This would reload the page and lose all application state
-    // We want to handle it with JavaScript
-    e.preventDefault();
+  function submitHandler(event) {
+    event.preventDefault();
 
-    // Always use .current to get the value
-    //    of the div that the ref is connected to
-    // Every JS select element has a .value property
     const selectedYear = yearInputRef.current.value;
     const selectedMonth = monthInputRef.current.value;
 
-    props.onSearch(selectedYear, selectedMonth);
+    props.onSearch(selectedYear, selectedMonth);    
   }
 
   return (
@@ -28,8 +22,8 @@ export default function FunctionSearch(props) {
         <div className={classes.control}>
           <label htmlFor='year'>Year</label>
           <select id='year' ref={yearInputRef}>
-            <option value='2020'>2020</option>
             <option value='2021'>2021</option>
+            <option value='2022'>2022</option>
           </select>
         </div>
         <div className={classes.control}>
@@ -43,14 +37,16 @@ export default function FunctionSearch(props) {
             <option value='6'>June</option>
             <option value='7'>July</option>
             <option value='8'>August</option>
-            <option value='9'>September</option>
+            <option value='9'>Septemer</option>
             <option value='10'>October</option>
             <option value='11'>November</option>
             <option value='12'>December</option>
           </select>
         </div>
       </div>
-      <Button>Search</Button>
+      <Button>Find Events</Button>
     </form>
   );
 }
+
+export default EventsSearch;

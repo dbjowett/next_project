@@ -1,19 +1,21 @@
 import Image from 'next/image';
-import classes from './event-item.module.css';
+
 import Button from '../ui/button';
 import DateIcon from '../icons/date-icon';
 import AddressIcon from '../icons/address-icon';
 import ArrowRightIcon from '../icons/arrow-right-icon';
+import classes from './event-item.module.css';
 
-export default function EventItem({ title, image, date, location, id }) {
-  const humanDate = new Date(date).toLocaleDateString('en-US', {
+function EventItem(props) {
+  const { title, image, date, location, id } = props;
+
+  const humanReadableDate = new Date(date).toLocaleDateString('en-US', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
   });
-
   const formattedAddress = location.replace(', ', '\n');
-  const eventExploreLink = `/events/${id}`;
+  const exploreLink = `/events/${id}`;
 
   return (
     <li className={classes.item}>
@@ -23,7 +25,7 @@ export default function EventItem({ title, image, date, location, id }) {
           <h2>{title}</h2>
           <div className={classes.date}>
             <DateIcon />
-            <time>{humanDate}</time>
+            <time>{humanReadableDate}</time>
           </div>
           <div className={classes.address}>
             <AddressIcon />
@@ -31,7 +33,7 @@ export default function EventItem({ title, image, date, location, id }) {
           </div>
         </div>
         <div className={classes.actions}>
-          <Button link={eventExploreLink}>
+          <Button link={exploreLink}>
             <span>Explore Event</span>
             <span className={classes.icon}>
               <ArrowRightIcon />
@@ -42,3 +44,5 @@ export default function EventItem({ title, image, date, location, id }) {
     </li>
   );
 }
+
+export default EventItem;
