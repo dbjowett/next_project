@@ -13,10 +13,15 @@ function NewsletterRegistration() {
 
     const config = {
       method: 'POST',
-      body: JSON.stringify(reqBody)
+      body: JSON.stringify(reqBody),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     };
 
-    fetch('/api/signup', config);
+    fetch('/api/signup', config)
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   }
 
   return (
