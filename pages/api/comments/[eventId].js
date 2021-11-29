@@ -1,5 +1,11 @@
-export default function handler(req, res) {
+import { MongoClient } from 'mongodb';
+
+export default async function handler(req, res) {
   const eventId = req.query.eventId;
+
+  const URL = 'mongodb+srv://dbjowett:ppa4z8QmwAOoQvk9@cluster0.rm7by.mongodb.net/events?retryWrites=true&w=majority';
+
+  const client = await MongoClient.connect(URL);
 
   if (req.method === 'POST') {
     const { email, name, text } = req.body;
@@ -9,21 +15,27 @@ export default function handler(req, res) {
       return;
     }
     const newComment = {
-      id: new Date().toISOString(),
       email,
       name,
-      text
+      text,
+      eventId
     };
-    console.log(newComment);
+    const db = client.db();
+    const result = await db.collection('comments').insertOne(newComment);
+
+    newComment.id = result.insertedId;
+
     res.status(201).json({ message: 'Success!', comment: newComment });
+
+    console.log(newComment);
   } else if (req.method === 'GET') {
-    const dummyComments = [
-      { id: 'c1', name: 'Daniel', text: 'Wow this is gonna be cool' },
-      { id: 'c2', name: 'Bill', text: 'Wow this is gonna be interesting' },
-      { id: 'c3', name: 'Jean', text: 'Wow this is gonna be fantastic' }
-    ];
-    res.status(201).json({ comments: dummyComments });
+    const db = client.db();
+    //find: get all comments// sort: sorts comments in desc order(id)// toArray: changes it to an array
+    const comments = await db.collection('comments').find().sort({ _id: -1 }).toArray();
+
+    res.status(201).json({ comments });
   } else {
     console.log('Please make a POST or GET request to this endpoint');
   }
+  client.close();
 }
