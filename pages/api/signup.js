@@ -1,21 +1,31 @@
 import { MongoClient } from 'mongodb';
+import { insertDocument, connectDatabase } from '../../helpers/db-util';
 
 export default async function handler(req, res) {
-  const URL = 'mongodb+srv://dbjowett:ppa4z8QmwAOoQvk9@cluster0.rm7by.mongodb.net/events?retryWrites=true&w=majority';
-
   if (req.method === 'POST') {
     const data = req.body;
 
     if (!data || !data.input.includes('@')) {
       res.status(422).json({ message: 'Invalid Email' });
+      return;
     }
 
-    const client = await MongoClient.connect(URL);
-    const db = client.db();
-    await db.collection('emails').insertOne({ email: data.input });
+    let client;
 
-    client.close();
+    try {
+      client = await connectDatabase();
+    } catch (err) {
+      res.status(500).json({ message: 'Connection to database failed' });
+      return;
+    }
 
+    try {
+      await insertDocument(client, 'emails', { email: data.input });
+      client.close();
+    } catch (err) {
+      res.status(500).json({ message: 'Inserting data failed' });
+      return;
+    }
     res.status(201).json({ message: 'Success' });
   } else {
     console.log('Please make a POST request to this endpoint');
